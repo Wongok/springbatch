@@ -5,8 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.repeat.RepeatStatus;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -22,20 +24,23 @@ public class SimpleJobConfiguration {
         // simpleJob이라는 이름의 Batch Job 생성
         // job의 이름은 빌더를 통해 지정
         return jobBuilderFactory.get("simpleJob")
-                .start(simpleStep1())
+                .start(simpleStep1(null))
                 .build();
     }
 
     @Bean
-    public Step simpleStep1() {
+    @JobScope
+    public Step simpleStep1(@Value("#{jobParameters[requestData]}") String requestData) {
         // simpleStep1이라는 이름의 Batch Step 생성
         // step의 이름은 빌더를 통해 지정
         // tasklet - Step안에서 수행될 기능들을 명시, Tasklet은 Step안에서 단일로 수행될 커스텀한 기능들을 선언할 때 사용
         // 1개의 Step = Tasklet 1개 + Reader & Processor & Writer
         return stepBuilderFactory.get("simpleStep1")
-                .tasklet(((contribution, chunkContext) -> {
+                .tasklet((contribution, chunkContext) -> {
                     log.info(">>>>> This is Step1");
-                    return RepeatStatus.FINISHED;})
-                ).build();
+                    log.info(">>>>> requestData = {}", requestData);
+                    return RepeatStatus.FINISHED;
+                })
+                .build();
     }
 }
