@@ -22,6 +22,9 @@ public class StepNextConditionalJobConfiguration {
     // step1 실패 시 : step1 -> step3
     // step1 성공 시 : step1 -> step2 -> step3
 
+    // BatchStatus - Job 또는 Step의 실행 결과를 Spring에서 기록할 때 사용하는 Enum
+    // ExitStatus - Step의 실행 후 상태
+
     @Bean
     public Job stepNextConditionalJob() {
         return jobBuilderFactory.get("stepNextConditionalJob")

@@ -33,7 +33,8 @@ public class StepNextJobConfiguration {
                 .tasklet((contribution, chunkContext) -> {
                     log.info(">>>>> This is Step1");
                     return RepeatStatus.FINISHED;
-                }).build();
+                })
+                .build();
     }
 
     @Bean
@@ -42,7 +43,8 @@ public class StepNextJobConfiguration {
                 .tasklet((contribution, chunkContext) -> {
                     log.info(">>>>> This is Step2");
                     return RepeatStatus.FINISHED;
-                }).build();
+                })
+                .build();
     }
 
     @Bean
@@ -51,6 +53,7 @@ public class StepNextJobConfiguration {
                 .tasklet((contribution, chunkContext) -> {
                     log.info(">>>>> This is Step3");
                     return RepeatStatus.FINISHED;
-                }).build();
+                })
+                .build();
     }
 }
