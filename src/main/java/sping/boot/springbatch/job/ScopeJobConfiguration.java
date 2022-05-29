@@ -30,6 +30,10 @@ public class ScopeJobConfiguration {
     }
 
     @Bean
+    // @JopScope는 Step의 선언문에서 사용 가능
+    // Step의 실행시점에 해당 컴포넌트를 Spring Bean으로 생성
+    // 장점 1) JobParameter의 Late Binding이 가능
+    // 장점 2) 동일한 컴포넌트를 병렬 혹은 동시에 사용할때 유용
     @JobScope
     public Step scopeStep1(@Value("#{jobParameters[requestData]}") String requestData) {
         return stepBuilderFactory.get("scopeStep1")
@@ -49,7 +53,7 @@ public class ScopeJobConfiguration {
     }
 
     @Bean
-    @StepScope
+    @StepScope  // @StepScope는 Tasklet, ItemReader, ItemWriter, ItemProcessor에서 사용 가능
     public Tasklet scopeStep2Tasklet(@Value("#{jobParameters[requestData]}") String requestData) {
         return (contribution, chunkContext) -> {
             log.info(">>>>> This is scopeStep2");
