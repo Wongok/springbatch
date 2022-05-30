@@ -11,6 +11,7 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import sping.boot.springbatch.tasklet.SimpleJobTasklet;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -26,6 +27,7 @@ public class SimpleJobConfiguration {
         return jobBuilderFactory.get("simpleJob")
                 .start(simpleStep1(null))
                 .next(simpleStep2(null))
+                .next(simpleStep3())
                 .build();
     }
 
@@ -56,6 +58,17 @@ public class SimpleJobConfiguration {
                     log.info(">>>>> requestData = {}", requestData);
                     return RepeatStatus.FINISHED;
                 })
+                .build();
+    }
+
+    private final SimpleJobTasklet tasklet3;
+
+    // @Bean
+    // @JobScope
+    public Step simpleStep3() {
+        log.info(">>>>> definition simpleStep3");
+        return stepBuilderFactory.get("simpleStep3")
+                .tasklet(tasklet3)
                 .build();
     }
 }
