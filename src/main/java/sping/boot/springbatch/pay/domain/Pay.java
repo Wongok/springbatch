@@ -40,3 +40,18 @@ public class Pay {
         this.txDateTime = LocalDateTime.parse(txDateTime, FORMATTER);
     }
 }
+
+/*
+create table pay (
+  id         bigint not null auto_increment,
+  amount     bigint,
+  tx_name     varchar(255),
+  tx_date_time datetime,
+  primary key (id)
+) engine = InnoDB;
+
+insert into pay (amount, tx_name, tx_date_time) VALUES (1000, 'tran1', '2022-05-31 00:00:00');
+insert into pay (amount, tx_name, tx_date_time) VALUES (2000, 'tran2', '2022-05-31 00:00:00');
+insert into pay (amount, tx_name, tx_date_time) VALUES (3000, 'tran3', '2022-05-31 00:00:00');
+insert into pay (amount, tx_name, tx_date_time) VALUES (4000, 'tran4', '2022-05-31 00:00:00');
+* */
