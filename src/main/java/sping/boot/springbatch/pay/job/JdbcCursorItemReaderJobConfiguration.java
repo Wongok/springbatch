@@ -54,8 +54,7 @@ public class JdbcCursorItemReaderJobConfiguration { // JPA에는 CursorItemReade
                 .build();
     }
 
-    @Bean
-    public ItemWriter<Pay> jdbcCursorItemWriter() {
+    private ItemWriter<Pay> jdbcCursorItemWriter() {
         return list -> {
             for (Pay pay : list) {
                 log.info("Current Pay={}", pay);
