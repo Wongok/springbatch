@@ -19,7 +19,7 @@ import javax.sql.DataSource;
 @Slf4j
 @RequiredArgsConstructor
 @Configuration
-public class JdbcCursorItemReaderJobConfiguration {
+public class JdbcCursorItemReaderJobConfiguration { // JPA에는 CursorItemReader가 없음.
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
@@ -38,7 +38,7 @@ public class JdbcCursorItemReaderJobConfiguration {
     public Step jdbcCursorItemReaderStep() {
         return stepBuilderFactory.get("jdbcCursorItemReaderStep")
                 .<Pay, Pay>chunk(chuckSize)// 앞의 Pay는 reader, 뒤의 Pay는 writer
-                .reader(jdbcCursorItemReader())
+                .reader(jdbcCursorItemReader()) // reader에서 읽은 데이터에 대해 크게 변경 로직이 없다면 processor 제외 가능
                 .writer(jdbcCursorItemWriter())
                 .build();
     }
