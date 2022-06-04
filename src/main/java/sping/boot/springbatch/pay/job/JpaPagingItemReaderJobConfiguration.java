@@ -48,7 +48,7 @@ public class JpaPagingItemReaderJobConfiguration { // JPA는 Cursor 기반 Datab
                 .name("jpaPagingItemReader")
                 .entityManagerFactory(entityManagerFactory)
                 .pageSize(chuckSize)
-                .queryString("SELECT p FROM Pay p WHERE amount >= 2000")
+                .queryString("SELECT p FROM Pay p WHERE amount >= 2000 ORDER BY id")
                 .build();
     }
 

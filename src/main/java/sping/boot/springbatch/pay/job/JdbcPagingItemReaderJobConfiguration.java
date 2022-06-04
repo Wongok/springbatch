@@ -80,6 +80,7 @@ public class JdbcPagingItemReaderJobConfiguration { // 여러 쿼리를 실행�
         queryProvider.setFromClause("FROM pay");
         queryProvider.setWhereClause("WHERE amount >= :amount");
 
+        // 정렬(Order)이 무조건 포함되어야함
         Map<String, Order> sortKeys = new HashMap<>(1);
         sortKeys.put("id", Order.ASCENDING);
 
