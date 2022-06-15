@@ -5,7 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.batch.item.database.JpaPagingItemReader;
@@ -35,13 +37,15 @@ public class PaySampleFailJobConfiguration {
 
 
     @Bean
-    public Job paySamplePagingJob() throws Exception {
+    @JobScope
+    public Job paySampleFailJob() throws Exception {
         return jobBuilderFactory.get(JOB_NAME)
                 .start(paySamplePagingStep())
                 .build();
     }
 
     @Bean
+    @StepScope
     public Step paySamplePagingStep() throws Exception {
         return stepBuilderFactory.get("paySamplePagingStep")
                 .<PaySample, PaySample>chunk(chuckSize)
@@ -52,6 +56,7 @@ public class PaySampleFailJobConfiguration {
     }
 
     @Bean
+    @StepScope
     public JpaPagingItemReader<PaySample> paySamplePagingReader() throws Exception {
         return new JpaPagingItemReaderBuilder<PaySample>()
                 .name("paySamplePagingReader")
@@ -61,6 +66,8 @@ public class PaySampleFailJobConfiguration {
                 .build();
     }
 
+    @Bean
+    @StepScope
     public ItemProcessor<PaySample, PaySample> paySamplePagingProcessor() {
         return item -> {
             item.success();
@@ -68,7 +75,9 @@ public class PaySampleFailJobConfiguration {
         };
     }
 
-    private JpaItemWriter<PaySample> paySamplePagingWriter() {
+    @Bean
+    @StepScope
+    public JpaItemWriter<PaySample> paySamplePagingWriter() {
         JpaItemWriter<PaySample> writer = new JpaItemWriter<>();
         writer.setEntityManagerFactory(entityManagerFactory);
         return writer;

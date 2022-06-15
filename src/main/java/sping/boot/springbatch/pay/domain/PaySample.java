@@ -30,3 +30,12 @@ public class PaySample {
         this.successStatus = true;
     }
 }
+
+/*
+create table pay_sample (
+  id         bigint not null auto_increment,
+  amount     bigint,
+  success_status boolean,
+  primary key (id)
+) engine = InnoDB;
+* */
